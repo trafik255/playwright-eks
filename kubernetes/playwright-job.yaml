@@ -1,0 +1,34 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: playwright-tests-job
+  namespace: playwright-tests
+spec:
+  backoffLimit: 0
+  template:
+    spec:
+      containers:
+        - name: playwright-tests
+          image: <your-ecr-account>.dkr.ecr.<region>.amazonaws.com/playwright-tests:latest
+          command: ["pytest", "tests/", "--html=report.html", "--self-contained-html"]
+          env:
+            - name: BASE_URL
+              value: "https://example.com"
+            - name: USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: playwright-secrets
+                  key: username
+            - name: PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: playwright-secrets
+                  key: password
+          resources:
+            requests:
+              cpu: "500m"
+              memory: "1Gi"
+            limits:
+              cpu: "1"
+              memory: "2Gi"
+      restartPolicy: Never
