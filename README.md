@@ -1,6 +1,7 @@
 # Playwright on EKS
 
 A clean, open-source example for running Playwright UI automation on AWS EKS using Terraform and Kubernetes Jobs.  
+
 This repository provisions an EKS cluster and runs containerized browser tests inside ephemeral Kubernetes workloads.
 
 ## Features
